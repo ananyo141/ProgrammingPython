@@ -3,5 +3,7 @@
 *.pyo
 *.log
 *.auto
+*.pkl
+
 __pycache__/
 .vscode/
