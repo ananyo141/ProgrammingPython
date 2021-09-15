@@ -2,8 +2,8 @@
 
 # records
 bob = {'name': 'Bob Smith',   'age': 42, 'pay': 30000, 'job': 'software-dev'}
-sue = {'name': 'Sue Dearbon', 'age': 45, 'pay': 40000, 'job': 'hardware'}
-tom = {'name': 'Tom',         'age': 50, 'pay': 0,      'job': None}
+sue = {'name': 'Sue Dearbon', 'age': 45, 'pay': 40000, 'job': 'hardware'    }
+tom = {'name': 'Tom',         'age': 50, 'pay': 0,     'job':  None         }
 
 # database to hold the records
 db = {}
