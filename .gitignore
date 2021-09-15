@@ -1,0 +1,7 @@
+# Ignore temporary files or python compiled bytecode
+*.pyc
+*.pyo
+*.log
+
+__pycache__/
+.vscode/
