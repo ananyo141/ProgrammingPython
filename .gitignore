@@ -5,5 +5,11 @@
 *.auto
 *.pkl
 
+# backup or shelve files
+*.bak
+*.dat
+*.dir
+
+# compiled or config directories
 __pycache__/
 .vscode/
