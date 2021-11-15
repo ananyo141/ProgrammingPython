@@ -66,9 +66,10 @@ def comparetrees(dir1:str, dir2:str, verbose:bool=False, blksize:int=BLKSIZE) ->
     levelStat['unique'] = list(set(levelItems1) - set(levelItems2))
     
     return levelStat
+
 # get and parse commandline args
 if __name__ == '__main__':
-    import argparse, json
+    import argparse, json, sys
 
     parser = argparse.ArgumentParser()
     parser.add_argument('dir1',            help='Source directory')
