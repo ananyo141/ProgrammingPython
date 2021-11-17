@@ -5,6 +5,7 @@
 import os, dirdiff
 
 BLKSIZE = 1024 * 1024 # 1MB
+DIFFERS = []          # keep track of differs for summary
 
 # get the same items in directory
 def intersection(seq1:[str], seq2:[str]) -> [str]:
@@ -30,7 +31,7 @@ def comparetrees(dir1:str, dir2:str, verbose:bool=False, blksize:int=BLKSIZE) ->
         print("%s and %s differs" % (dir1, dir2))
 
     # compare file names lists
-    if verbose: print(f"Comparing contents of {dir1} and {dir2}...")
+    if verbose: print("-" * 40, f"Comparing contents of {dir1} and {dir2}...", sep='\n')
     common = intersection(levelItems1, levelItems2)
     missed = common[:]      # alternative to common.copy()
     # compare files contents in common
@@ -51,6 +52,8 @@ def comparetrees(dir1:str, dir2:str, verbose:bool=False, blksize:int=BLKSIZE) ->
                     if chunk1 != chunk2:
                         if verbose: print(f"{filename} differs")
                         levelStat['differs'].append(filename)
+                        global DIFFERS
+                        DIFFERS.append((filepath1, filepath2))
                         break
 
     # recur to compare common subdirectories
@@ -63,7 +66,7 @@ def comparetrees(dir1:str, dir2:str, verbose:bool=False, blksize:int=BLKSIZE) ->
 
     # mark unidentified items (both not dir or file)
     levelStat['missed'] = missed
-    levelStat['unique'] = list(set(levelItems1) - set(levelItems2))
+    levelStat['unique'] = list(set(levelItems1).symmetric_difference(set(levelItems2)))
     
     return levelStat
 
@@ -76,6 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('dir2',            help='Backup directory')
     parser.add_argument('-v', '--verbose', help='Verbose output',  action='store_true')
     parser.add_argument('-o', '--output',  help='Output stat json file', default=False)
+    parser.add_argument('-t', '--trace',   help='Trace memory usage', action='store_true')
     args = parser.parse_args()
     
     dir1, dir2 = map(os.path.abspath, (args.dir1, args.dir2))
@@ -88,9 +92,24 @@ if __name__ == '__main__':
         same = dir1 == dir2
     if same:
         sys.exit("Same directory specified")
+    if args.trace:
+        import tracemalloc
+        tracemalloc.start()
+
+    # compare and create directory map
     directoryStats = dict()
     directoryStats[os.path.basename(dir1)] = comparetrees(dir1, dir2, args.verbose)
+
+    # print results summary
+    print('\n', '=' * 40, '\nDifferences Found:\n', sep='')
+    for ind, (diff1, diff2) in enumerate(DIFFERS):
+        print(f"{ind+1}) => '{diff1}' differs from '{diff2}'")
     if args.output:
         with open(args.output, 'w') as outfile:
             json.dump(directoryStats, outfile, indent=4)
+    if args.trace:
+        current, peak = tracemalloc.get_traced_memory()
+        print(f"\nCurrent memory usage at end: {current/10**6} MB",
+              f"Peak memory usage: {peak / 10**6} MB", sep='\n')
+        tracemalloc.stop()
 
