@@ -4,6 +4,8 @@
 # Convert it into pdf
 
 import datetime, os
+from ModuleImporter import module_importer
+fpdf = module_importer('fpdf', 'fpdf2')
 from fpdf import FPDF
 
 HEADER = '''
@@ -125,8 +127,8 @@ def main():
     if not args.keep:
         os.unlink(assignmentTxtPath)
 
-    # remove generated font pickle from directory
-    os.unlink(os.path.join(dirname, os.path.basename(FONT_PATH).replace('.ttf','.pkl')))
+    # remove generated font pickle from current directory
+    os.unlink(os.path.basename(FONT_PATH).replace('.ttf','.pkl'))
 
 
 if __name__ == '__main__':
