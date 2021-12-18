@@ -8,7 +8,7 @@ class Demo(Frame):
         fill=BOTH,
     )
 
-    def __init__(self, parent=None, radiobuttons=[], **kw):
+    def __init__(self, parent=None, radiobuttons=list(demos.keys()), **kw):
         Frame.__init__(self, parent, **kw)
         self.pack()
         self.makebuttons()
@@ -44,5 +44,5 @@ class Demo(Frame):
             print('Not implemented')
 
 if __name__ == '__main__':
-    Demo(radiobuttons=list(demos.keys())).mainloop()
+    Demo().mainloop()
 
