@@ -7,8 +7,8 @@ from PIL.ImageTk import PhotoImage
 # Subclass Toplevel object to create specialized objects that display 
 # a single image
 class ImgViewer(Toplevel):
-    def __init__(self, imgpath):
-        Toplevel.__init__(self)
+    def __init__(self, imgpath, parent=None, **kw):
+        Toplevel.__init__(self, parent, **kw)
         self.title(os.path.basename(imgpath))
         self.imageObj = PhotoImage(file=imgpath)    # persistent image object
         self.configs  ()
