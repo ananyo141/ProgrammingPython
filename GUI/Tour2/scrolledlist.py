@@ -10,7 +10,7 @@ class ScrollList(tk.Frame):
     def makewidgets(self, options):
         listbox = tk.Listbox(self, relief=SUNKEN)
         ysbar = tk.Scrollbar(self, command=listbox.yview)
-        xsbar = tk.Scrollbar(self, command=listbox.xview)
+        xsbar = tk.Scrollbar(self, command=listbox.xview, orient='horizontal')
         listbox.config(yscrollcommand=ysbar.set)
         listbox.config(xscrollcommand=xsbar.set)
 
@@ -32,6 +32,10 @@ class ScrollList(tk.Frame):
         print(option)
 
 if __name__ == '__main__':
-    options = (('A quick brown fox jumps over the lazy dog %d' % num) for num in range(1, 11))
-    ScrollList(options).mainloop()
+    root = tk.Tk()
+    root.geometry('200x100')
+    root.title('List')
+    root.iconname('ListScroll')
+    options = (('%d: A quick brown fox jumps over the lazy dog' % num) for num in range(1, 31))
+    ScrollList(options, root).mainloop()
 
