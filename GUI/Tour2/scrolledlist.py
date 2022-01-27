@@ -11,6 +11,7 @@ class ScrollList(tk.Frame):
         listbox = tk.Listbox(self, relief=SUNKEN)
         ysbar = tk.Scrollbar(self, command=listbox.yview)
         xsbar = tk.Scrollbar(self, command=listbox.xview, orient='horizontal')
+        listbox.config(selectmode=MULTIPLE)
         listbox.config(yscrollcommand=ysbar.set)
         listbox.config(xscrollcommand=xsbar.set)
 
@@ -24,9 +25,12 @@ class ScrollList(tk.Frame):
         listbox.bind('<Double-1>', self.listdoubleclick)
         self.listbox = listbox
 
-    def listdoubleclick(self):
+    def listdoubleclick(self, event):
         option = self.listbox.get(ACTIVE)
-        self.runcommand(option)
+        self.runcommand('Clicked: ' + option)
+        for selection in self.listbox.curselection():
+            selected = self.listbox.get(selection)
+            self.runcommand('Selected: ' + selected)
 
     def runcommand(self, option):
         print(option)
