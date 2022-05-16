@@ -8,7 +8,7 @@ import sys
 
 def createDialog():
     " Spawn dialog to input unpack parameters "
-    dialog = Tk()
+    dialog = Toplevel()
     dialog.title('Unpacker')
     inputfile = makeFormRow(dialog, 'Input file: ')
     Button(dialog, text='Start', command=dialog.destroy).pack()

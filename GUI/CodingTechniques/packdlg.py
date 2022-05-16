@@ -7,8 +7,8 @@ from glob import glob
 
 def createDialog():
     " Gui for pack, return outputfile(str) and inputfiles(str) in tuple "
-    dialog = Tk()
-    dialog.title('Packer')
+    dialog = Toplevel()     # use top level widgets instead of Tk() root to avoid
+    dialog.title('Packer')  # grab exception in ./packdlg-redirect.py
     outputfile = makeFormRow(dialog, 'Output File: ', save=True)
     inputfiles = makeFormRow(dialog, 'Files to pack: ', extend=True)
     Button(dialog, text='Start', command=dialog.destroy).pack()
